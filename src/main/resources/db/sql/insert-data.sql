@@ -16,3 +16,9 @@ Qualcomm
 SnapdragonTM S4 Pro processor',
 300,'Google','Tablet','New',1000,0,false);
 
+
+
+
+INSERT INTO customers VALUES (1, 'ibrahim', 'ismalia', 2);
+INSERT INTO customers VALUES (2, 'ahmed', 'cairo', 3);
+INSERT INTO customers VALUES (3, 'toto', 'sharkia', 4);

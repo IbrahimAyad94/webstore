@@ -11,3 +11,13 @@ UNITS_IN_STOCK BIGINT,
 UNITS_IN_ORDER BIGINT,
 DISCONTINUED BOOLEAN
 );
+
+
+
+DROP TABLE customers IF EXISTS;
+CREATE TABLE customers (
+id int PRIMARY KEY,
+name VARCHAR(50),
+address VARCHAR(250),
+noOfOrdersMade int
+);
