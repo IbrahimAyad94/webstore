@@ -1,5 +1,6 @@
 package com.packt.webstore.domain.repository.impl;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -38,6 +39,65 @@ public class InMemoryProductRepository implements ProductRepository{
 		jdbcTemplate.update(SQL, params);
 	}
 
+	@Override
+	public List<Product> getProductsByCategory(String category) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY = :category";
+		Map<String , Object> params = new HashMap<>();
+		params.put("category", category);
+		return jdbcTemplate.query(SQL, params, new ProductMapper());
+	}
+	
+	@Override
+	public List<Product> getProductsByFilter(Map<String,List<String>>filterParams) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY IN (:categories ) AND MANUFACTURER IN ( :brands)";
+		return jdbcTemplate.query(SQL, filterParams, new ProductMapper());
+	}
+
+	@Override
+	public Product getProductById(String productID) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE ID = :id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", productID);
+		return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
+	}
+	
+	
+	@Override
+	public List<Product> filterProducts(String category, Map<String, List<BigDecimal>> price, String brand) {
+		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY = :category AND UNIT_PRICE BETWEEN :low And :high " + 
+				"AND MANUFACTURER = :brand";
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("category", category);
+		params.put("low", price.get("low").get(0));
+		params.put("high", price.get("high").get(0));
+		params.put("brand", brand);
+		
+		return jdbcTemplate.query(SQL, params, new ProductMapper());
+	}
+	
+	
+	@Override
+	public void addProduct(Product product) {
+		String SQL =
+				"INSERT INTO PRODUCTS (ID, NAME, DESCRIPTION, UNIT_PRICE, MANUFACTURER, CATEGORY, CONDITION, "
+				+ "UNITS_IN_STOCK, UNITS_IN_ORDER, DISCONTINUED) VALUES  (:id, :name, :desc, "
+				+ ":price, :manufacturer, :category, :condition, :inStock, :inOrder, :discontinued);";
+				
+		
+			Map<String, Object> params = new HashMap<>();
+			params.put("id", product.getProductId());
+			params.put("name", product.getName());
+			params.put("desc", product.getDescription());
+			params.put("price", product.getUnitPrice());
+			params.put("manufacturer", product.getManufacturer());
+			params.put("category", product.getCategory());
+			params.put("condition", product.getCondition());
+			params.put("inStock", product.getUnitsInStock());
+			params.put("inOrder", product.getUnitsInOrder());
+			params.put("discontinued", product.isDiscontinued());
+			jdbcTemplate.update(SQL, params);
+	}
 	
 	private static final class ProductMapper implements RowMapper<Product> {
 		public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
