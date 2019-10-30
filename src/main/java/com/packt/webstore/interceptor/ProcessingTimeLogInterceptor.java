@@ -31,7 +31,7 @@ public class ProcessingTimeLogInterceptor implements HandlerInterceptor{
 			Object handler) throws Exception {
 		/*long startTime = System.currentTimeMillis();
 		request.setAttribute("startTime", startTime);*/
-		return false;
+		return true;
 	}
 
 }
