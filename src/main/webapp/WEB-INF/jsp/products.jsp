@@ -24,6 +24,10 @@
 			<c:forEach items="${products}" var="product">
 				<div class="col-sm-6 col-md-3">
 					<div class="thumbnail">
+					
+						<!-- Add Image  -->
+						<img src="<c:url value="/img/images/${product.productId}.jpg"/>" 
+								alt="image" style ="width:100%; hieght: 200px"/>
 						<div class="caption">
 							<h3>${product.name}</h3>
 							<p>${product.description}</p>

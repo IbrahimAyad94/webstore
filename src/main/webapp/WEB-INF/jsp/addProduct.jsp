@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -11,6 +11,9 @@
 
 <body>
 	<section>
+		<div>
+			<a href="<c:url value="/logout" />">Logout</a>
+		</div>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Products</h1>
@@ -19,63 +22,71 @@
 		</div>
 	</section>
 	<section class="container">
-		<form:form method="POST" modelAttribute="newProduct" class="form-horizontal">
+		<form:form method="POST" modelAttribute="newProduct"
+			class="form-horizontal" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Add new product</legend>
-				
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-2 col-lg-2" for="productId">
-						<spring:message code="addProduct.form.productId.label"/> 
+						<%-- <spring:message code="addProduct.form.productId.label"/>  --%>
+						Product ID
 					</label>
 					<div class="col-lg-10">
-						<form:input id="productId" path="productId" type="text" class="form:input-large" />
+						<form:input id="productId" path="productId" type="text"
+							class="form:input-large" />
 					</div>
 				</div>
-				
-				
+
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-2 col-lg-2" for="name">name</label>
 					<div class="col-lg-10">
-						<form:input id="name" path="name" type="text" class="form:input-large" />
+						<form:input id="name" path="name" type="text"
+							class="form:input-large" />
 					</div>
 				</div>
-				
-				
+
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-2 col-lg-2" for="unitPrice">unitPrice</label>
 					<div class="col-lg-10">
-						<form:input id="unitPrice" path="unitPrice" type="text" class="form:input-large" />
+						<form:input id="unitPrice" path="unitPrice" type="text"
+							class="form:input-large" />
 					</div>
 				</div>
-				
-				
+
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-2 col-lg-2" for="manufacturer">manufacturer</label>
 					<div class="col-lg-10">
-						<form:input id="manufacturer" path="manufacturer" type="text" class="form:input-large" />
+						<form:input id="manufacturer" path="manufacturer" type="text"
+							class="form:input-large" />
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-2 col-lg-2" for="category">category</label>
 					<div class="col-lg-10">
-						<form:input id="category" path="category" type="text" class="form:input-large" />
+						<form:input id="category" path="category" type="text"
+							class="form:input-large" />
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 
 					<label class="control-label col-lg-2 col-lg-2" for="unitsInStock">unitsInStock</label>
 					<div class="col-lg-10">
-						<form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" />
+						<form:input id="unitsInStock" path="unitsInStock" type="text"
+							class="form:input-large" />
 					</div>
 				</div>
-				
+
 				<!-- Commented Because We Not Add In White List Parameter  -->
 				<%-- <div class="form-group">
 
@@ -84,19 +95,19 @@
 						<form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" />
 					</div>
 				</div> --%>
-				
-				
-				
-				
-				
-				
+
+
+
+
+
+
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="description">Description</label>
 					<div class="col-lg-10">
 						<form:textarea id="description" path="description" rows="2" />
 					</div>
 				</div>
-				
+
 				<!-- Commented Because We Not Add In White List Parameter  -->
 				<%-- <div class="form-group">
 					<label class="control-label col-lg-2" for="discontinued">Discontinued</label>
@@ -104,7 +115,7 @@
 						<form:checkbox id="discontinued" path="discontinued" />
 					</div>
 				</div> --%>
-				
+
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="condition">Condition</label>
 					<div class="col-lg-10">
@@ -116,8 +127,24 @@
 						Refurbished
 					</div>
 				</div>
-				
-				
+
+
+				<div class="form-group">
+					<label class="control-label col-lg-2" for="productImage"> Product Image </label>
+					<div class="col-lg-10">
+						<form:input id="productImage" path="productImage" type="file"
+							class="form:input-large" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-lg-2" for="productPDF"> Product Image </label>
+					<div class="col-lg-10">
+						<form:input id="productPDF" path="productPDF" type="file"
+							class="form:input-large" />
+					</div>
+				</div>
+
 				<!-- Submit Button  -->
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
