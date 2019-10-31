@@ -1,12 +1,16 @@
 package com.packt.webstore.config;
 import java.util.ArrayList;
 
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.View;
@@ -54,12 +58,14 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	// configure message resource to read labels from file to support internationalization // here error 
-	@Bean(name ="messageSource")
-	 public MessageSource messageSource() {
-		 ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
-		 resource.setBasename("messages");
-		 return resource;
-	 }
+	  @Bean(name="messageSource")
+	  public MessageSource messageSource() {
+	      ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
+	      messageSource.setBasename("classpath:messages");
+	      messageSource.setDefaultEncoding("UTF-8");
+	      messageSource.setUseCodeAsDefaultMessage(true);
+	      return messageSource;
+	   }
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -106,4 +112,18 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new ProcessingTimeLogInterceptor());
 	}
+	
+	// validation bean
+	@Bean(name = "validator")
+	public LocalValidatorFactoryBean validator() {
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());// pass method that make config to msg source
+		return bean;
+	}
+	// config validaion 
+	@Override
+	public Validator getValidator(){
+		return validator();
+	}
+	
 }

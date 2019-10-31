@@ -2,17 +2,24 @@ package com.packt.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.packt.webstore.validator.ProductId;
 
 @XmlRootElement
 public class Product {
 
+	@Pattern(regexp="P[1-9]+", message="{Pattern.Product.productId.validation}")// if you read from properties file
+	@ProductId
 	private String productId;
+	@Size(min=4, max=50, message="name is from 4 to 50 letter") // if you print msg from here 
 	private String name;
 	private BigDecimal unitPrice;
 	private String description;
@@ -22,6 +29,7 @@ public class Product {
 	private long unitsInOrder;
 	private boolean discontinued;
 	String condition;
+	@NotNull(message="image not null and required")
 	private MultipartFile productImage;
 	private MultipartFile productPDF;
 	
